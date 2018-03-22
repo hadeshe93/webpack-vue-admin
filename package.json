@@ -8,6 +8,7 @@
     "dllDev": "webpack --mode development --progress --profile --color --display-modules --display-chunks --config ./build/webpack.dll.config.js",
     "dllProd": "webpack --mode production --progress --profile --color --display-modules --display-chunks --config ./build/webpack.dll.config.js",
     "dllDev:start": "npm run dllDev && npm start",
+    "dllProd:analyze": "npm run dllProd && npm analyze",
     "dllProd:build": "npm run dllProd && npm run build",
     "build": "cross-env NODE_ENV=production webpack --mode production --progress --profile --color --display-modules --display-chunks --config ./build/webpack.production.config.js",
     "analyze": "cross-env NODE_ENV=development webpack --progress --profile --color --display-modules --display-chunks --config ./build/webpack.production.config.js"
