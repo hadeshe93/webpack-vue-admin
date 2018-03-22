@@ -1,0 +1,67 @@
+{
+  "name": "webpack-vue-admin",
+  "version": "1.0.0",
+  "description": "A template for admin is constructed by webpack, supporting vue and dll.",
+  "main": "main.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --host 0.0.0.0 --port 5006 --hot --inline --color --progress --config ./build/webpack.config.js",
+    "dllDev": "webpack --mode development --progress --profile --color --display-modules --display-chunks --config ./build/webpack.dll.config.js",
+    "dllProd": "webpack --mode production --progress --profile --color --display-modules --display-chunks --config ./build/webpack.dll.config.js",
+    "dllDev:start": "npm run dllDev && npm start",
+    "dllProd:build": "npm run dllProd && npm run build",
+    "build": "cross-env NODE_ENV=production webpack --mode production --progress --profile --color --display-modules --display-chunks --config ./build/webpack.production.config.js",
+    "analyze": "cross-env NODE_ENV=development webpack --progress --profile --color --display-modules --display-chunks --config ./build/webpack.production.config.js"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "Cyber Hades",
+  "license": "MIT",
+  "browserslist": [
+    "> 1%",
+    "last 3 versions",
+    "not ie <= 11"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.3",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.16",
+    "cross-env": "^5.1.3",
+    "css-loader": "^0.28.10",
+    "ejs-loader": "^0.3.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "html-webpack-exclude-empty-assets-plugin": "^0.1.0",
+    "html-webpack-plugin": "^3.0.4",
+    "less": "^3.0.1",
+    "less-loader": "^4.0.6",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.1.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.2",
+    "uglifyjs-webpack-plugin": "^1.2.2",
+    "url-loader": "^0.6.2",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.1.0",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.10",
+    "webpack-dashboard": "^0.3.0",
+    "webpack-dev-server": "^3.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "irm-util": "0.0.9",
+    "iview": "^2.11.0",
+    "iview-loader": "^1.1.0",
+    "moment": "^2.21.0",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  }
+}
