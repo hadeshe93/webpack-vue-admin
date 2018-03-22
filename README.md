@@ -18,7 +18,7 @@ Launch the devServer and start the project:
 $ npm run dllDev:start
 ```
 
-> Attension: the npm script named 'dllDev' should just run for one time which can save the webpack's packing time during the developing.
+> Attension: the npm script named 'dllDev' should just run for one time which can save the webpack's packing time during the developing. So you can run `npm start` directly behind.
 
 ### Build the project to production
 Build the project after development:
@@ -26,7 +26,7 @@ Build the project after development:
 $ npm run dllProd:build
 ```
 
-> Attension: the npm script named 'dllProd' should just run for one time which can save the webpack's packing time during the building.
+> Attension: the npm script named 'dllProd' should just run for one time which can save the webpack's packing time during the building. So you can run `npm run build` directly behind.
 
 ### Build the project to development for analyze
 When you wanna analyze the project so as to improve the quality of the production code:
@@ -34,4 +34,7 @@ When you wanna analyze the project so as to improve the quality of the productio
 $ npm run dllProd:analyze
 ```
 
-> Attension: the npm script named 'dllProd' should just run for one time which can save the webpack's packing time during the building for analyze.
+> Attension: the npm script named 'dllProd' should just run for one time which can save the webpack's packing time during the building for analyze. So you can run `npm run analyze` directly behind.
+
+### Attension!
+When you modified the 'webpack.common.config.js' or 'weboack.dll.config.js', you should run `npm run dllDev` or `npm run dllProd` to generate new dll file.
