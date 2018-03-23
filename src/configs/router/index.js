@@ -1,21 +1,39 @@
 import VueRouter from 'vue-router';
 
-import { appRoutes } from './routes.js';
+import { baseRoutes, appRoutes } from './routes.js';
+import auth from '@ASSETS/scripts/auth.js';
 
 
 //创建路由实例，传入配置参数
 const router = new VueRouter({
-  routes: appRoutes,
+  // routes: appRoutes,
+  routes: [
+    ...baseRoutes,
+    ...appRoutes,
+  ],
 });
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.name === '/logout') {
+    // 如果是登出页
+    auth.logout();
+    next('/login');
   }
-  next();
+  else if (to.matched.some(record => record.meta.requiresAuth)) {
+    // 如果是需要权限的页面
+    if (!auth.isLogin()) {
+      next('/login');
+      console.log('请你先登录');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
-router.afterEach((to, from, next) => {
+router.afterEach((to, from) => {
 });
 
 export default router;

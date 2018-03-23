@@ -10,6 +10,7 @@
         <Breadcrumb class="layout-content-breadcrumb">
           <BreadcrumbItem v-show="!(index===0 && item.name=='/' && breadcrumbs[1]['name']==='/index')"
             v-for="(item, index) in breadcrumbs"
+            :key="index"
             :to="item.name">{{ item.meta.title }}</BreadcrumbItem>
         </Breadcrumb>
         <div class="layout-content-view">

@@ -3,6 +3,8 @@ import App from '@VIEWS/app.vue';
 import MainLayout from '@VIEWS/common/mainLayout.vue';
 import ContentContainer from '@VIEWS/common/contentContainer.vue';
 
+import Login from '@VIEWS/account/login.vue';
+
 /* Lazy-Load View */
 // Index
 const Index = ()=>import(/* webpackChunkName: "index" */ '@VIEWS/index/index.vue').then(m=>m.default);
@@ -13,13 +15,31 @@ const UserStay = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/us
 const UserLost = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/userLost.vue').then(m=>m.default);
 const Terminal = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/terminal.vue').then(m=>m.default);
 
+const loginRoute = {
+  name: '/login',
+  path: '/login',
+  component: Login,
+  meta: { title: '登录页', },
+};
+
+const logoutRoute = {
+  name: '/logout',
+  path: '/logout',
+  meta: { title: '退出账号', },
+};
+
+export const baseRoutes = [
+  loginRoute,
+  logoutRoute,
+];
+
 export const appRoutes = [
   {
     name: '/',
     path: '/',
     component: MainLayout,
     redirect: '/index',
-    meta: { title: '首页', },
+    meta: { title: '首页', requiresAuth: true, }, //最上级这里放一个权限标志，则以下的路由全都需要！
     children: [
       // 首页
       {
@@ -33,7 +53,7 @@ export const appRoutes = [
         name: '/content',
         path: 'content',
         component: ContentContainer,
-        meta: { title: '内容管理', type: 'menu', requiresAuth: true, },
+        meta: { title: '内容管理', type: 'menu', },
         children: [
           {
             name: '/content/article',

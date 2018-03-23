@@ -31,14 +31,8 @@ function excuteResponsive(config){
   const MAX_WIDTH = config.MAX_WIDTH;
   const BODY_FONTSIZE = config.BODY_FONTSIZE;
   const dpr = window.devicePixelRatio;
-  console.log(DRAFT_WIDTH);
-  console.log(SCALE);
-  console.log(MIN_WIDTH);
-  console.log(MAX_WIDTH);
-  console.log(BODY_FONTSIZE);
 
   var changeRootFontsize = function(){
-    console.log('Change');
     /* 设定：MIN_WIDTH <= deviceWidth <= MAX_WIDTH */
     var innerWidth = window.innerWidth * dpr;
     var deviceWidth = innerWidth > MAX_WIDTH ? MAX_WIDTH: (innerWidth < MIN_WIDTH ? MIN_WIDTH : innerWidth);
