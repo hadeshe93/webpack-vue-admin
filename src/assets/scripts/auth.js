@@ -5,7 +5,7 @@ const UtilStorage = IrmUtil.UtilStorage;
 const UtilCrypto = IrmUtil.UtilCrypto;
 
 const MANAGER = STORAGE_CONFIGS['MANAGER'];
-
+console.log(MANAGER);
 
 const isLogin = ()=>{
   if (UtilStorage.lcGet(MANAGER)) {

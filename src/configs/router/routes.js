@@ -4,6 +4,9 @@ import MainLayout from '@VIEWS/common/mainLayout.vue';
 import ContentContainer from '@VIEWS/common/contentContainer.vue';
 
 import Login from '@VIEWS/account/login.vue';
+import Err404 from '@VIEWS/common/404.vue';
+import Err403 from '@VIEWS/common/403.vue';
+import Err500 from '@VIEWS/common/500.vue';
 
 /* Lazy-Load View */
 // Index
@@ -15,24 +18,48 @@ const UserStay = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/us
 const UserLost = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/userLost.vue').then(m=>m.default);
 const Terminal = ()=>import(/* webpackChunkName: "analyze" */ '@VIEWS/analyze/terminal.vue').then(m=>m.default);
 
-const loginRoute = {
+/**
+ * 1. 普通页面
+ * 在整个浏览器区域展现
+ */
+export const loginRoute = {
   name: '/login',
   path: '/login',
   component: Login,
   meta: { title: '登录页', },
 };
 
-const logoutRoute = {
+export const logoutRoute = {
   name: '/logout',
   path: '/logout',
   meta: { title: '退出账号', },
 };
 
-export const baseRoutes = [
-  loginRoute,
-  logoutRoute,
-];
+export const err404Route = {
+  name: 'error-404',
+  path: '/*',
+  component: Err404,
+  meta: { title: '404-页面不存在', },
+}
 
+export const err403Route = {
+  name: 'error-403',
+  path: '/403',
+  component: Err403,
+  meta: { title: '403-权限不足', },
+}
+
+export const err500Route = {
+  name: 'error-500',
+  path: '/500',
+  component: Err500,
+  meta: { title: '500-服务器错误', },
+}
+
+/**
+ * 2. 应用页面
+ * 在 Main 组件的子页面区域展示，在左侧菜单栏显示；有两种对应情况；
+ */
 export const appRoutes = [
   {
     name: '/',
@@ -101,3 +128,21 @@ export const appRoutes = [
     ]
   },
 ]
+
+/**
+ * 3. 其他页面
+ * 在 Main 组件的子页面区域展示，但不在左侧菜单栏显示
+ */
+export const otherRoutes = [];
+
+
+// 这里统一导出所有 routes
+export const routes = [
+  loginRoute,
+  logoutRoute,
+  ...otherRoutes,
+  ...appRoutes,
+  err403Route,
+  err500Route,
+  err404Route,
+];

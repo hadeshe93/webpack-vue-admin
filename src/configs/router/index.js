@@ -1,16 +1,12 @@
 import VueRouter from 'vue-router';
 
-import { baseRoutes, appRoutes } from './routes.js';
+import { routes } from './routes.js';
 import auth from '@ASSETS/scripts/auth.js';
 
 
 //创建路由实例，传入配置参数
 const router = new VueRouter({
-  // routes: appRoutes,
-  routes: [
-    ...baseRoutes,
-    ...appRoutes,
-  ],
+  routes: routes,
 });
 
 // 全局路由守卫

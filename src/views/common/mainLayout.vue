@@ -58,11 +58,20 @@ export default {
 </script>
 
 <style lang="less">
+@import '../../assets/styles/config.less';
 // 放置需要重载的样式
-.ivu-menu-vertical .ivu-menu-item-group-title {
-  padding-left: 10px;
+.layout {
+  .ivu-menu-vertical .ivu-menu-item-group-title {
+    padding-left: 10px;
+  }
+  .ivu-menu-item>a {
+    color: @color-content;
+  }
+  .ivu-menu-item-active>a,
+  .ivu-menu-item-selected>a {
+    color: @color-primary;
+  }
 }
-
 </style>
 
 <style lang="less" scoped>
