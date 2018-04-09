@@ -35,6 +35,7 @@ var webpackConfig = {
   devtool: '#eval-source-map',
   devServer: {
     hot: true,
+    open: true,
     inline: true,
     historyApiFallback: false,
     disableHostCheck: true,

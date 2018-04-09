@@ -12,17 +12,21 @@
 @color-warning: #ff9900;
 @color-error: #ed3f14;
 @color-white: #ffffff;
+@color-disabled: #a0a0a0;
+@color-disabled-background: #fafafa;
 // 中性色
 @color-content: #333333;
 @color-title: #222222;
 @color-secondary: #666666;
 @color-icon: #404245;
-@color-disabled: #999999;
-@color-sub: #e5e5e5;
-@color-border: #e5e5e5;
-@color-divider: #eeeeee;
+@color-sub-dark: #999999;
+@color-sub-light: #cccccc;
+@color-sub: #a5a5a5;
+@color-border: #e1e4e4;
 @color-table: #fbfbfb;
 @color-background: #deb775;
+// @color-background: #f5f6fa;
+@color-link: #3399e0;
 
 /**
  * 字体大小
@@ -42,22 +46,106 @@
  * 集成样式
  * Configuration
  */
-.cfg-tip-text {
-  font-size: @fontSize-sm-text;
-  color: @color-disabled;
-}
 
-.cfg-page {
-  min-height: 100vh;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-  .conetnt {
-    padding: 30px 0 0;
-  }
-}
+ /**
+  * 集成样式
+  * Configuration
+  */
+ // 主标题
+ .cfg-main-title {
+   font-weight: bolder;
+   font-size: @fontSize-para-title;
+   color: @color-content;
+ }
+ // 段落标题
+ .cfg-para-title {
+   font-weight: bold;
+   font-size: @fontSize-para-subtitle;
+   color: @color-content;
+ }
+ // 段落子标题
+ .cfg-para-subtitle {
+   font-weight: bold;
+   font-size: @fontSize-normal-text;
+   color: @color-content;
+ }
+ // 正文/重要文字
+ .cfg-content-text,
+ .cfg-emphasize-text {
+   font-weight: normal;
+   font-size: @fontSize-normal-text;
+   color: @color-content;
+ }
+ // 次要/导航内文字
+ .cfg-navigator-text {
+   font-weight: normal;
+   font-size: @fontSize-normal-text;
+   color: @color-secondary;
+ }
+ // 次要/表头内文字
+ .cfg-th-text {
+   font-weight: normal;
+   font-size: @fontSize-normal-text;
+   color: @color-sub-dark;
+ }
+ // 次要/表格内正文
+ .cfg-td-text {
+   font-weight: normal;
+   font-size: @fontSize-sm-text;
+   color: @color-content;
+ }
+ // 次要/"更多"文字
+ .cfg-more-text {
+   font-weight: normal;
+   font-size: @fontSize-sm-text;
+   color: @color-sub-dark;
+ }
+ // 辅助/输入框提示文字
+ .cfg-tip-text {
+   font-weight: normal;
+   font-size: @fontSize-normal-text;
+   color: @color-sub-light;
+ }
+ // 失效文字
+ .cfg-disabled-text {
+   font-weight: normal;
+   font-size: @fontSize-sm-text;
+   color: @color-sub-light;
+ }
+ // 链接文字
+ .cfg-disabled-text {
+   font-weight: normal;
+   font-size: @fontSize-sm-text;
+   color: @color-link;
+ }
+
+
+ .cfg-page {
+   min-height: 100vh;
+   text-align: center;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items:center;
+   .conetnt {
+     padding: 30px 0 0;
+   }
+ }
+
+ // 让内容高度撑满
+ .cfg-height-full {
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: stretch;
+ }
+
+ // 让内容水平居中
+ .cfg-horizontal-center {
+   display: flex;
+   justify-content: center;
+   align-items: flex-start;
+ }
 
 /**
  * 动画

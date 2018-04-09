@@ -5,5 +5,6 @@
  */
 
 export default {
+  // 管理员信息
   MANAGER: 'MANAGER.GDP.GUOJJ.COM',
 };
