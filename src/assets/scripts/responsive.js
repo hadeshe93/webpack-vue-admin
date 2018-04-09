@@ -1,11 +1,12 @@
 function excuteResponsive(config){
   var isEffective = false;
-  const DEFAULT_CONFIG = Object.create(null);
+  const DEFAULT_CONFIG = {};
   DEFAULT_CONFIG.DRAFT_WIDTH = 750;
   DEFAULT_CONFIG.UNIT_PX = 100;
   DEFAULT_CONFIG.MIN_WIDTH = 480;
   DEFAULT_CONFIG.MAX_WIDTH = 750;
-  DEFAULT_CONFIG.BODY_FONTSIZE = 14;
+  DEFAULT_CONFIG.COMMON_FONTSIZE = 14;
+  DEFAULT_CONFIG.CAN_SYNC_BODY_FONTSIZE = true;
 
   if (typeof config === 'boolean' ){
     if (config) {
@@ -17,7 +18,9 @@ function excuteResponsive(config){
   } else if (config instanceof Object) {
     var temp = {};
     for (var key in DEFAULT_CONFIG) {
-      temp[key] = config[key] || DEFAULT_CONFIG[key];
+      if (DEFAULT_CONFIG.hasOwnProperty(key)) {
+        temp[key] = config[key] || DEFAULT_CONFIG[key];
+      }
     }
     config = temp;
     isEffective = true;
@@ -29,7 +32,8 @@ function excuteResponsive(config){
   const SCALE = DRAFT_WIDTH / config.UNIT_PX; //设置 100px = 1rem 的转换规则
   const MIN_WIDTH = config.MIN_WIDTH;
   const MAX_WIDTH = config.MAX_WIDTH;
-  const BODY_FONTSIZE = config.BODY_FONTSIZE;
+  const COMMON_FONTSIZE = config.COMMON_FONTSIZE;
+  const CAN_SYNC_BODY_FONTSIZE = config.CAN_SYNC_BODY_FONTSIZE;
   const dpr = window.devicePixelRatio;
 
   var changeRootFontsize = function(){
@@ -39,6 +43,7 @@ function excuteResponsive(config){
     var htmlElem = document.documentElement;
     var body = document.getElementsByTagName('body')[0];
     htmlElem.style.fontSize = deviceWidth / SCALE + 'px';
+    /* 这段代码感觉可被参考，暂时不删 */
     // if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
     //   /* Mobile or Tablet */
     //   htmlElem.style.fontSize = deviceWidth / SCALE + 'px';
@@ -46,7 +51,9 @@ function excuteResponsive(config){
     //   /* PC */
     //   htmlElem.style.fontSize = "100px";
     // }
-    body.style.fontSize = BODY_FONTSIZE/config.UNIT_PX + 'rem';
+    if (CAN_SYNC_BODY_FONTSIZE) {
+      body.style.fontSize = COMMON_FONTSIZE/config.UNIT_PX + 'rem';
+    }
   };
 
   if(document.addEventListener){

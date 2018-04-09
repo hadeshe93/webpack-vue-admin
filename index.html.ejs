@@ -4,11 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <link href="http://at.alicdn.com/t/font_3n1y2hvuscahsemi.css" rel="stylesheet">
-    <script type="text/javascript">(<%= require('./src/assets/scripts/responsive.js') %>)({MAX_WIDTH: 1080})</script>
+    <link href="http://at.alicdn.com/t/font_611237_gsd6p3xfp52vs4i.css" rel="stylesheet">
+    <script type="text/javascript">
+      (<%= require('./src/assets/scripts/responsive.js') %>)({
+        MIN_WIDTH: 1080,
+        MAX_WIDTH: 2000,
+        DRAFT_WIDTH: 1080,
+        CAN_SYNC_BODY_FONTSIZE: false,
+      })
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="<%= dllSrc %>"></script>
   </body>
 </html>
