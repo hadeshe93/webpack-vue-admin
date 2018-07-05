@@ -1,6 +1,8 @@
 var path = require('path');
 var Webpack = require('webpack');
 var ExtractPlugin = require('extract-text-webpack-plugin');
+var IrmMockWebpackPlugin = require('./plugins/irm-mock-webpack-plugin');
+
 var DefinePlugin = Webpack.DefinePlugin;
 var DllReferencePlugin = Webpack.DllReferencePlugin;
 
@@ -19,11 +21,14 @@ const ROOT_PATH = CONFIGURATION._PATH.ROOT_PATH;
 const SRC_PATH = CONFIGURATION._PATH.SRC_PATH;
 const DIST_PATH = CONFIGURATION._PATH.DIST_PATH;
 
+// const mockConfig = require(path.resolve(ROOT_PATH, './mock/config.js'));
+const mockConfig = path.resolve(ROOT_PATH, './mock/config.js');
+
 var webpackConfig = {
   // mode: 'development',
   context: ROOT_PATH,
   entry: {
-    'dist/main': path.resolve(SRC_PATH, 'main.js'),
+    'main': path.resolve(SRC_PATH, 'main.js'),
   },
   output: {
     path: DIST_PATH,
@@ -35,15 +40,27 @@ var webpackConfig = {
   devtool: '#eval-source-map',
   devServer: {
     hot: true,
-    open: true,
     inline: true,
     historyApiFallback: false,
     disableHostCheck: true,
+    contentBase: ROOT_PATH,
+    watchOptions: {
+      ignored: /node_modules/
+    },
+    proxy: {
+      '/mock': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          "^/mock": ""
+        }
+      },
+    },
   },
   resolve: CONFIGURATION.resolve,
   externals: CONFIGURATION.externals,
   module: CONFIGURATION.module,
-  // optimization: CONFIGURATION.optimization,
+  optimization: CONFIGURATION.optimization,
   plugins: (function(){
     var ret = [
       new DefinePlugin({
@@ -56,6 +73,8 @@ var webpackConfig = {
         context: ROOT_PATH,
         manifest: path.resolve(ROOT_PATH, 'manifest.json'),
       }),
+      // 自定义插件
+      new IrmMockWebpackPlugin({config:mockConfig, port: 3000}),
     ];
     if (IS_PRETTIER_UI) {
       ret.push(new DashboardPlugin(dashboard.setData))

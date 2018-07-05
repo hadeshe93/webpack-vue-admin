@@ -1,8 +1,10 @@
 var path = require('path');
 var Webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+/* 在 webpack v4 中提供了过渡版，不再适用了，很多bug */
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-// var HtmlWebpackExcludeEmptyAssetsPlugin = require('html-webpack-exclude-empty-assets-plugin');
+var HtmlWebpackExcludeEmptyAssetsPlugin = require('html-webpack-exclude-empty-assets-plugin');
 
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -19,9 +21,10 @@ const COMPONENTS_PATH = path.resolve(ROOT_PATH, './src/components/');
 const IMG_PATH = path.resolve(ROOT_PATH, './src/assets/images/');
 const STY_PATH = path.resolve(ROOT_PATH, './src/assets/styles/');
 
-const extractCSS = new ExtractTextPlugin('[name]_css.[hash:8].css');
-const extractLESS = new ExtractTextPlugin('[name]_less.[hash:8].css');
-const extractSASS = new ExtractTextPlugin('[name]_sass.[hash:8].css');
+/* 在 webpack v4 中提供了过渡版，不再适用了，很多bug */
+// const extractCSS = new ExtractTextPlugin('[name]_css.[hash:8].css');
+// const extractLESS = new ExtractTextPlugin('[name]_less.[hash:8].css');
+// const extractSASS = new ExtractTextPlugin('[name]_sass.[hash:8].css');
 
 module.exports = {
   _PATH: {
@@ -58,16 +61,22 @@ module.exports = {
 
   optimization: {
     runtimeChunk: {
-      name: "dist/runtime"
+      name: "runtime"
     },
     splitChunks: {
       cacheGroups: {
-        default: false,
+        default: {
+          minChunks: 2,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: "dist/common",
+          name: "common",
           chunks: "all",
-          minSize: 15000,
+          minSize: 30000,
+          minChunks: 2,
+          priority: -20,
         }
       }
     }
@@ -80,12 +89,27 @@ module.exports = {
       filename: 'index.html',  //默认目录路径为output.path
       template: 'index.html.js', //默认目录路径为根目录
       inject: true,
+      minify: (process.env.NODE_ENV === 'production')
+        ? {
+          removeAttributeQuotes: true,
+          collapseWhitespace: true,
+          html5: true,
+          minifyCSS: true,
+          removeComments: true,
+          removeEmptyAttributes: true,
+        }
+        : false,
     }),
-    // new HtmlWebpackExcludeEmptyAssetsPlugin(),
+    new HtmlWebpackExcludeEmptyAssetsPlugin(),
 
-    extractCSS,
-    extractLESS,
-    extractSASS,
+    /* 在 webpack v4 中提供了过渡版，不再适用了，很多bug */
+    // extractCSS,
+    // extractLESS,
+    // extractSASS,
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash:8].css',
+      chunkFilename: '[id].[chunkhash:8].css',
+    }),
   ],
 
   // 分析调试用的插件
@@ -118,8 +142,9 @@ module.exports = {
       {
         test: /\.css$/,
         // include: SRC_PATH,
-        use: extractCSS.extract(['css-loader', 'postcss-loader']),
+        // use: extractCSS.extract(['css-loader', 'postcss-loader']),
         // use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
         // use: extractCSS.extract([
         //   { loader: 'css-loader', options: { sourceMap: true } },
         //   { loader: 'postcss-loader', options: { sourceMap: true } },
@@ -128,8 +153,9 @@ module.exports = {
       {
         test: /\.less$/,
         // include: SRC_PATH,
-        use: extractLESS.extract(['css-loader', 'postcss-loader', 'less-loader']),
+        // use: extractLESS.extract(['css-loader', 'postcss-loader', 'less-loader']),
         // use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
         // use: extractLESS.extract([
         //   { loader: 'css-loader', options: { sourceMap: true } },
         //   { loader: 'postcss-loader', options: { sourceMap: true } },
@@ -138,8 +164,9 @@ module.exports = {
       },
       {
         test: /\.(scss|sass)$/,
-        use: extractSASS.extract(['css-loader', 'postcss-loader', 'sass-loader']),
+        // use: extractSASS.extract(['css-loader', 'postcss-loader', 'sass-loader']),
         // use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
         // use: extractLESS.extract([
         //   { loader: 'css-loader', options: { sourceMap: true } },
         //   { loader: 'postcss-loader', options: { sourceMap: true } },
@@ -149,7 +176,10 @@ module.exports = {
       {
         test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|eot)\??.*$/,
         use: [
-          { loader: 'url-loader', options: { limit: 2000, name: 'dist/[name].[hash:8].[ext]' } }
+          /*还有outputPath选项可用*/
+          { loader: 'url-loader', options: { limit: 2000, name: '[name].[hash:8].[ext]', } },
+          // { loader: 'image-webpack-loader', options: { bypassOnDebug: true, pngquant: { quality: '65-70', speed: 4 }, mozjpeg: { progressive: true, quality: 65 }, } },
+          // { loader: 'image-webpack-loader', options: { bypassOnDebug: true, } },
         ],
       },
       {
