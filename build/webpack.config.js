@@ -21,8 +21,7 @@ const ROOT_PATH = CONFIGURATION._PATH.ROOT_PATH;
 const SRC_PATH = CONFIGURATION._PATH.SRC_PATH;
 const DIST_PATH = CONFIGURATION._PATH.DIST_PATH;
 
-// const mockConfig = require(path.resolve(ROOT_PATH, './mock/config.js'));
-const mockConfig = path.resolve(ROOT_PATH, './mock/config.js');
+const mockConfig = path.resolve(ROOT_PATH, './mock');
 
 var webpackConfig = {
   // mode: 'development',
@@ -49,7 +48,7 @@ var webpackConfig = {
     },
     proxy: {
       '/mock': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3020',
         changeOrigin: true,
         pathRewrite: {
           "^/mock": ""
@@ -74,7 +73,7 @@ var webpackConfig = {
         manifest: path.resolve(ROOT_PATH, 'manifest.json'),
       }),
       // 自定义插件
-      new IrmMockWebpackPlugin({config:mockConfig, port: 3000}),
+      new IrmMockWebpackPlugin({config:mockConfig, port: 3020}),
     ];
     if (IS_PRETTIER_UI) {
       ret.push(new DashboardPlugin(dashboard.setData))

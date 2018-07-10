@@ -1,17 +1,22 @@
 const path = require('path');
 
 const config = {
-  '/tst/data': {
-    data: './test.js'
+  '/test/data': {
+    data: './test/data.js'
   },
-  '/admin/login': {
-    data: './test.js'
-  }
+  '/user/login': {
+    data: './user/login.js'
+  },
+  '/user/getUserInfo': {
+    data: './user/getUserInfo.js'
+  },
 }
 
 for (let item in config) {
   if (config.hasOwnProperty(item))
+    // 相当于这里再做一层判断过滤了
     config[item].path = path.resolve(__dirname, config[item].data);
 }
-console.log(config);
+
+
 module.exports = config;

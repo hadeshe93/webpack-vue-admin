@@ -1,43 +1,55 @@
 const express = require('express');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const formidable = require('formidable');
 const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs');
+
 const returnData = require('./returnData.js');
 
-const configPath = process.argv[2];
-const config = require(configPath);
+const mockPath = process.argv[2];
+const logPath = path.resolve(mockPath, './dev.log');
+const config = require(path.resolve(mockPath, './config.js'));
 const port = Number(process.argv[3]);
 const log = console.log;
 
-log('\r\n\r\n');
-log(configPath, port);
-log(config);
-log('\r\n\r\n');
+if (!config) {
+  log(chalk.red('No Configuration'));
+  return false;
+}
 
-// module.exports = function({config, port=3000}){
-  if (!config) {
-    log(chalk.red('No Configuration'));
-    return false;
-  }
+const mockPort = port || 3000;
+const app = express();
+const accessLogStream = fs.createWriteStream(logPath, {flags: 'a+'});
 
-  const mockPort = port || 3000;
-  const app = express();
+app.use(logger('dev', {stream: accessLogStream}));
+app.use(cookieParser());
+app.use(bodyParser.json());
 
-  // 将配置参数放置请求体里，方便后面的中间件可以使用
-  app.use((req, res, next) => {
-    req.config = config;
-    next();
+// 如果表单以 form-data 形式上传你的
+app.use((req, res, next) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, (err, fields, files)=>{
+    req.form = { err, fields, files };
   });
+  next();
+});
 
-  // 用自定义中间件处理请求
-  app.use(returnData);
+// 将配置参数放置请求体里，方便后面的中间件可以使用
+app.use((req, res, next) => {
+  req.config = config;
+  next();
+});
 
-  // 启动server
-  const server = app.listen(mockPort, function(){
-    log('\r\n\r\n');
-    log(chalk.red(JSON.stringify(server.address())));
-    let host = server.address().address;
-    let port = server.address().port;
-    log(chalk.green(`Mock server is listening at http://${host}:${port}`));
-    log('\r\n\r\n');
-  });
+// 用自定义中间件处理请求
+app.use(returnData);
 
-// };
+// 启动server
+const server = app.listen(mockPort, function(){
+  log(chalk.red(JSON.stringify(server.address())));
+  let host = server.address().address;
+  let port = server.address().port;
+  log(chalk.green(`Mock server is listening at http://${host}:${port}`));
+});

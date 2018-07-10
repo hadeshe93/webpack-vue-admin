@@ -1,6 +1,6 @@
 // const server = require('./server.js');
 const path = require('path');
-const { spawn, fork, exec } = require('child_process');
+const { spawn, fork, execSync } = require('child_process');
 
 const RUNNER_PATH = path.resolve(__dirname, './runner.js');
 const SERVER_PATH = path.resolve(__dirname, './server.js');
@@ -13,22 +13,9 @@ function IrmMockWebpackPlugin({config, port = 3000}) {
 
 IrmMockWebpackPlugin.prototype.apply = function (compiler) {
     // 调用启动express的函数
-    // spawn('pwd', [], {
-    //   stdio: 'inherit', // 子进程使用父进程的 stdios
-    // });
-    // server({config: this.config, port: this.port});
-
-    // spawn('node', [RUNNER_PATH, this.config, this.port], {
-    //   stdio: 'inherit', // 子进程使用父进程的 stdios
-    // });
-
-    console.log(this.config);
-    console.log(this.port);
-    // spawn('node', [SERVER_PATH, this.config, this.port], {
-    //   stdio: 'inherit', // 子进程使用父进程的 stdios
-    // });
-    exec('nodemon '+SERVER_PATH+' '+this.config+' '+this.port, {
+    spawn('nodemon', [SERVER_PATH, this.config, this.port], {
       stdio: 'inherit', // 子进程使用父进程的 stdios
+      shell: true,
     });
 
     // 注册一个webpack插件

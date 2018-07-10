@@ -22,7 +22,6 @@ router.beforeEach((to, from, next) => {
     // 如果是需要权限的页面
     if (!auth.isLogin()) {
       next('/login');
-      console.log('请你先登录');
     } else {
       next();
     }

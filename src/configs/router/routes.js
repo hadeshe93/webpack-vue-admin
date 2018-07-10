@@ -86,7 +86,12 @@ export const appRoutes = [
             name: '/content/article',
             path: 'article',
             component: Article,
-            meta: { title: '文章管理', type: 'page', icon: 'ios-paper' },
+            meta: { title: '文章管理', type: 'page', icon: 'ios-paper',
+              check () {
+                // 在这里可以做权限校验
+                return true;
+              },
+           },
           },
         ],
       },

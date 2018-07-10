@@ -70,8 +70,8 @@ export default {
   methods: {
     // 账号登录
     handleLogin: async function() {
-      let loginRsp = await this.$axios.post('/user/login', this.formLogin);
-      let infoRsp = await this.$axios.get(`/user/getUserInfo?uid=${loginRsp.data.data.uid}&token=${loginRsp.data.data.token}`);
+      let loginRsp = await this.$axios.post('/mock/user/login', this.formLogin);
+      let infoRsp = await this.$axios.get(`/mock/user/getUserInfo?uid=${loginRsp.data.data.uid}&token=${loginRsp.data.data.token}`);
       let data = {
         ...loginRsp.data.data,
         ...infoRsp.data.data,

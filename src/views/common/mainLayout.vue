@@ -5,7 +5,7 @@
       <left-menu :menus="menus" :active-name="activeName" @on-select="handleMenuSelected"></left-menu>
     </Sider>
     <Layout>
-      <Header :style="{background: '#fff', borderBottom: '1px solid #DDDEE1'}"></Header>
+      <Header :style="{background: '#fff'}"></Header>
       <Content class="layout-content">
         <Breadcrumb class="layout-content-breadcrumb">
           <BreadcrumbItem v-show="!(index===0 && item.name=='/' && breadcrumbs[1]['name']==='/index')"
@@ -33,7 +33,7 @@ export default {
   },
   data () {
     return {
-      menus: appRoutes[0]['children'],
+      menus: appRoutes,
       activeName: '',
 
       breadcrumbs: [],
@@ -41,17 +41,21 @@ export default {
   },
   watch: {
     '$route' (newR, oldR) {
-      this.activeName = newR.name;
-      this.breadcrumbs = newR.matched;
+      this.$nextTick(()=>{
+        this.refreshNavigator(newR);
+      });
     },
   },
   mounted () {
-    this.activeName = this.$route.name;
-    this.breadcrumbs = this.$route.matched;
+    this.refreshNavigator(this.$route);
   },
   methods: {
     handleMenuSelected (name) {
       this.$router.push(name);
+    },
+    refreshNavigator (r) {
+      this.activeName = r.name;
+      this.breadcrumbs = r.matched;
     },
   },
 }

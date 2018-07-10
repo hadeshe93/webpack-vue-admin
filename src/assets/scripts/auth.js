@@ -5,7 +5,6 @@ const UtilStorage = IrmUtil.UtilStorage;
 const UtilCrypto = IrmUtil.UtilCrypto;
 
 const MANAGER = STORAGE_CONFIGS['MANAGER'];
-console.log(MANAGER);
 
 const isLogin = ()=>{
   if (UtilStorage.lcGet(MANAGER)) {
@@ -15,17 +14,14 @@ const isLogin = ()=>{
 };
 
 const login = (data)=>{
-  console.log('成功登录');
   UtilStorage.lcSet(MANAGER, UtilCrypto.encrypt(data));
 };
 
 const logout = ()=>{
-  console.log('成功登出账号');
   UtilStorage.lcRemove(MANAGER);
 };
 
 const getManager = ()=>{
-  console.log('获取当前账号信息');
   return UtilCrypto.decrypt(UtilStorage.lcGet(MANAGER));
 }
 

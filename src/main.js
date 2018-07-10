@@ -102,7 +102,7 @@ const vm = new Vue({
     // 初始化 iview 组件的配置
     iviewConfig.initComponents(this);
 
-    this.$axios.get('/mock/gdp/test')
+    this.$axios.get('/mock/test/data')
       .then(rsp=>{
         console.log(rsp);
       });
